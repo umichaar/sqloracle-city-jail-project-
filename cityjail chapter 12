@@ -1,0 +1,33 @@
+5. 
+SELECT DISTINCT crime_id
+FROM crimes
+JOIN appeals USING (crime_id)
+WHERE crime_id 
+IN (SELECT crime_id FROM appeals GROUP BY crime_id
+HAVING COUNT(*) =(SELECT MAX(COUNT(*)) 
+FROM appeals
+GROUP BY crime_id));
+
+6.
+SELECT charge_id, crime_id, crime_code, charge_status, TO_CHAR(fine_amount, '$9999.99') AS fine_amount, TO_CHAR(court_fee, '$9999.99') AS court_fee, TO_CHAR(amount_paid, '$9999.99') AS amount_paid, pay_due_date
+FROM crime_charges
+WHERE fine_amount  > 
+(SELECT AVG(fine_amount) FROM crime_charges)
+AND amount_paid <
+(SELECT AVG(amount_paid) FROM crime_charges);
+
+7.
+SELECT DISTINCT criminal_id, last, first FROM criminals
+JOIN crimes USING (criminal_id)
+JOIN crime_charges USING (crime_id)
+WHERE 
+crime_code = (SELECT crime_code FROM crime_charges WHERE crime_id = '10089') ORDER BY criminal_id;
+
+8. 
+SELECT DISTINCT criminal_id, last, first
+FROM criminals
+WHERE EXISTS (SELECT criminal_id
+			FROM sentences
+			WHERE criminals.criminal_id=sentences.criminal_id
+AND p_status = 'Y')
+ORDER BY criminal_id;
