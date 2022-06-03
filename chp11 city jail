@@ -1,0 +1,28 @@
+1. )
+SELECT AVG(COUNT(crime_id)) AS average_crimes
+FROM crime_officers
+JOIN officers USING (officer_id)
+GROUP BY officer_id;
+
+5.)
+SELECT criminal_id, first, last, COUNT(sentence_id)
+FROM criminals
+JOIN sentences USING(criminal_id)
+GROUP BY criminal_id, first, last
+HAVING COUNT(sentence_id) > 1;
+
+6. )
+SELECT COUNT(charge_status) AS charges_defended, precinct
+FROM crime_officers 
+JOIN officers USING(officer_id) 
+JOIN crime_charges USING(crime_id)
+WHERE charge_status ='GL'
+GROUP BY precinct
+HAVING COUNT(charge_status) >= 7;
+
+7. )
+SELECT classification, SUM (NVL(fine_amount,0)+ NVL(court_fee,0)) AS total_collections, 
+SUM (NVL(fine_amount,0)+ NVL(court_fee,0) - NVL(amount_paid, 0)) AS amount_owed
+FROM crime_charges
+JOIN crimes USING (crime_id)
+GROUP BY classification;
