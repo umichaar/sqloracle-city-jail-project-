@@ -1,0 +1,12 @@
+chapter 8 problem set 8-11
+
+
+8) SELECT sentence_id, criminal_id, prob_id FROM sentences WHERE prob_id IS NOT
+NULL ORDER BY prob_id, criminal_id;
+9) SELECT crime_id, criminal_id, classification, status FROM crimes WHERE classification =
+‘M’ AND status = ‘IA’;
+10) SELECT charge_id, crime_id, fine_amount, court_fee, amount_paid,
+(NVL(fine_amount,0)+NVL(court_fee,0)-NVL(amount_paid,0)) AS amount_owed FROM
+crime_charges WHERE  (NVL(fine_amount,0)+NVL(court_fee,0)-NVL(amount_paid,0))>0;
+11) SELECT officer_id, last, precinct, status FROM officers WHERE precinct IN (‘OCVW’,
+‘GHNT’) AND status = ‘A’ ORDER BY precinct, last;
